@@ -1,0 +1,6 @@
+From: test@example.com
+To: victim@example.com
+Subject: Test
+Date: Mon, 1 Jan 2024 12:00:00 +0000
+
+This is a test http://evil.com/login

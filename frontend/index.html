@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phishing-Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="window-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <svg class="icon icon-shield-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z" />
+      </svg>
+      <span class="brand">PHISHING-ANALYZER</span>
+      <span class="version">v1.4.2</span>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Config
+      </button>
+      <button class="topbar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        Console
+      </button>
+      <button class="topbar-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.83 1c0 2-3 2-3 4"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Docs
+      </button>
+      <span class="divider"></span>
+      <span class="engine-status">
+        <span class="status-dot"></span>
+        Engine Online
+      </span>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- Panel lateral izquierdo -->
+    <aside class="sidebar">
+      <h2 class="sidebar-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        PANEL DE CONTROL
+      </h2>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+        </div>
+        <div>
+          <div class="stat-number" id="contador-analizados">0</div>
+          <div class="stat-label">Analizados hoy</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-danger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+        </div>
+        <div>
+          <div class="stat-number" id="contador-phishing">0</div>
+          <div class="stat-label">Phishing detectado</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-success">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div>
+          <div class="stat-number" id="contador-legitimos">0</div>
+          <div class="stat-label">Legítimos</div>
+        </div>
+      </div>
+
+      <div class="rules-card">
+        <h3 class="rules-title">REGLAS ACTIVAS</h3>
+        <ul class="rules-list">
+          <li><span class="rule-dot"></span>SPF/DKIM check</li>
+          <li><span class="rule-dot"></span>URL reputation</li>
+          <li><span class="rule-dot"></span>Header anomaly</li>
+          <li><span class="rule-dot"></span>ML classifier</li>
+          <li><span class="rule-dot"></span>Domain age</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="content">
+
+      <!-- Zona de carga -->
+      <section class="dropzone" id="dropzone">
+        <div class="dropzone-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h1 class="dropzone-title">Arrastra tu archivo .eml aquí</h1>
+        <p class="dropzone-subtitle">o haz clic para seleccionar desde el explorador de archivos</p>
+
+        <div class="dropzone-actions">
+          <button class="btn btn-primary" id="btn-seleccionar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Seleccionar archivo
+          </button>
+          <button class="btn btn-secondary" id="btn-pegar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+            Pegar contenido
+          </button>
+        </div>
+
+        <p class="dropzone-formats">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Formatos soportados: .eml, .msg, .txt — Tamaño máximo: 25 MB
+        </p>
+
+        <input type="file" id="input-archivo" accept=".eml,.msg,.txt" hidden />
+      </section>
+
+      <!-- Modal para pegar contenido -->
+      <div class="modal-overlay" id="modal-pegar" hidden>
+        <div class="modal">
+          <h3>Pegar contenido del correo</h3>
+          <textarea id="textarea-pegar" placeholder="Pega aquí el contenido crudo del .eml..."></textarea>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" id="btn-cancelar-pegar">Cancelar</button>
+            <button class="btn btn-primary" id="btn-confirmar-pegar">Analizar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aviso de estado / metadatos -->
+      <div class="info-bar" id="info-bar">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span id="info-bar-texto">Los metadatos del correo aparecerán aquí una vez que cargues un archivo .eml para analizar.</span>
+      </div>
+
+      <!-- Grid de resultados + veredicto -->
+      <div class="results-layout">
+
+        <div class="results-grid">
+          <div class="result-card">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>REMITENTE</h4>
+            <div class="result-value" id="valor-remitente">— sin datos —</div>
+            <div class="result-hint" id="hint-remitente">Carga un archivo para comenzar</div>
+          </div>
+
+          <div class="result-card">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l4.6-4.6a2 2 0 0 0 0-2.82Z"/><circle cx="7.5" cy="7.5" r="1"/></svg>ASUNTO</h4>
+            <div class="result-value" id="valor-asunto">— sin datos —</div>
+            <div class="result-hint">Subject line aparecerá aquí</div>
+          </div>
+
+          <div class="result-card">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>IP DE ORIGEN</h4>
+            <div class="result-value" id="valor-ip">—.—.—.—</div>
+            <div class="result-hint">Geolocalización y reputación</div>
+          </div>
+
+          <div class="result-card">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>ESCANEO DE URLS</h4>
+            <div class="result-value" id="valor-urls">Sin URLs detectadas</div>
+            <div class="result-hint">Análisis de dominios y redirects</div>
+          </div>
+        </div>
+
+        <div class="verdict-card">
+          <h3 class="verdict-title">VEREDICTO DE RIESGO</h3>
+          <div class="verdict-icon" id="verdict-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z"/></svg>
+          </div>
+          <div class="verdict-text" id="verdict-text">Esperando<br>análisis</div>
+          <p class="verdict-hint" id="verdict-hint">Carga un archivo .eml para comenzar</p>
+          <div class="verdict-dots">
+            <span class="v-dot v-dot-green"></span>
+            <span class="v-dot v-dot-orange"></span>
+            <span class="v-dot v-dot-pink"></span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

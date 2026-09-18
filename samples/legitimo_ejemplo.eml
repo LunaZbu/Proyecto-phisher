@@ -1,0 +1,16 @@
+From: "GitHub" <notifications@github.com>
+To: usuario@example.com
+Subject: Tu pull request fue aprobado
+Date: Mon, 01 Sep 2025 10:00:00 -0500
+Return-Path: <notifications@github.com>
+Received: from mail.github.com (140.82.112.3) by mx.example.com; Mon, 01 Sep 2025 10:00:01 -0500
+Received-SPF: pass (google.com: domain of notifications@github.com designates 140.82.112.3 as permitted sender)
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=github.com; dkim=pass header.d=github.com; dmarc=pass header.from=github.com
+Content-Type: text/plain; charset="utf-8"
+
+Hola,
+
+Tu pull request #42 fue aprobado y mergeado a main.
+
+Saludos,
+El equipo de GitHub
