@@ -160,8 +160,8 @@ function tieneBackend() {
 
 function mostrarCargando(mensaje = "Analizando...") {
   const barra = document.getElementById("info-bar");
-  barra.classList.remove("completado");
-  barra.classList.add("cargando"); // reloj girando + luz neón en el borde
+  barra.classList.remove("completado", "error");
+  barra.classList.add("cargando"); // reloj girando + luz beige en el borde
   document.getElementById("dropzone").classList.add("analizando"); // puntos en ola
   mostrarInfo(mensaje);
 }
@@ -176,13 +176,17 @@ function ocultarCargando(exitoso = true) {
 // ---------- Procesar y pintar el resultado ----------
 
 function procesarResultado(resultado) {
+  const barra = document.getElementById("info-bar");
+
   if (!resultado || resultado.error) {
     ocultarCargando(false);
+    barra.classList.add("error"); // alerta carmesí en la barra de estado
     mostrarInfo(`[!] Error durante el análisis: ${resultado ? resultado.error : "desconocido"}`);
     return;
   }
 
   ocultarCargando(true);
+  barra.classList.remove("error");
   pintarMetadatos(resultado);
   pintarVeredicto(resultado.veredicto);
   actualizarContadores(resultado.veredicto.nivel);

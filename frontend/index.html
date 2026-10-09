@@ -12,16 +12,14 @@
   <header class="topbar">
     <div class="topbar-left">
       <div class="logo-trigger">
-        <!-- Logo: pentágono en espiral (línea fina tipo neón, según el boceto) -->
-        <svg class="logo-svg" viewBox="0 0 32 32" fill="none" stroke="currentColor"
-             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Sentinel">
-          <path class="logo-trazo" pathLength="100" d="M16 4
-                 L28.4 13 L23.6 27.5 L8.4 27.5 L3.6 13
-                 L16 6.74 L25.67 13.88 L21.93 25.19 L10.07 25.19 L6.33 13.88
-                 L16 9.72 L22.94 14.76 L20.26 22.88 L11.74 22.88 L9.06 14.76
-                 L16 12.58 L20.22 15.64 L18.58 20.57 L13.42 20.57 L11.78 15.64
-                 L16.8 17.6" />
-          <circle class="logo-punto" cx="16.8" cy="17.6" r="1.15" fill="currentColor" stroke="none" />
+        <!-- Logo Sentinel: cinta "S" de dos tonos (demo de referencia: frontend/logo.html) -->
+        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Sentinel">
+          <defs>
+            <path id="logo-banda-exterior" pathLength="100" d="M161.8 28.5 L60.1 28.5 L30.6 119.2 L102.6 171.5 L169.4 123.0 L145.8 50.5 L76.1 50.5 L56.5 110.8 L102.6 144.3 L143.5 114.5 L136.0 91.4"/>
+            <path id="logo-banda-interior" d="M160.5 28.5 L60.1 28.5 L30.6 119.2 L102.6 171.5 L169.4 123.0 L145.8 50.5 L76.1 50.5 L56.5 110.8 L102.6 144.3 L143.5 114.5 L136.4 92.7"/>
+          </defs>
+          <use href="#logo-banda-exterior" class="logo-trazo"/>
+          <use href="#logo-banda-interior" class="logo-relleno"/>
         </svg>
         <span class="brand">Sentinel</span>
       </div>
@@ -98,8 +96,16 @@
       <section class="dropzone" id="dropzone">
 
         <div class="dropzone-normal">
-          <div class="dropzone-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <!-- Logo Sentinel (versión grande para la zona de arrastre) -->
+          <div class="dropzone-logo">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <path id="dz-banda-exterior" d="M161.8 28.5 L60.1 28.5 L30.6 119.2 L102.6 171.5 L169.4 123.0 L145.8 50.5 L76.1 50.5 L56.5 110.8 L102.6 144.3 L143.5 114.5 L136.0 91.4"/>
+                <path id="dz-banda-interior" d="M160.5 28.5 L60.1 28.5 L30.6 119.2 L102.6 171.5 L169.4 123.0 L145.8 50.5 L76.1 50.5 L56.5 110.8 L102.6 144.3 L143.5 114.5 L136.4 92.7"/>
+              </defs>
+              <use href="#dz-banda-exterior" class="dz-exterior"/>
+              <use href="#dz-banda-interior" class="dz-interior"/>
+            </svg>
           </div>
           <h1 class="dropzone-title">Arrastra tu archivo .eml aquí</h1>
           <p class="dropzone-subtitle">o haz clic para seleccionar desde el explorador de archivos</p>

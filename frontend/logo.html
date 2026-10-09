@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sentinel — Logo</title>
+  <style>
+    :root {
+      --crimson: #dc143c;       /* contorno del logo */
+      --logo-fill: #2a0a10;     /* relleno oscuro de la banda */
+      --logo-size: 64px;        /* tamaño del icono */
+      --bg-demo: #262624;
+      --text-main: #ece9e2;
+    }
+
+    .sentinel-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .sentinel-logo__icon {
+      width: var(--logo-size);
+      height: var(--logo-size);
+      overflow: visible;
+      filter: drop-shadow(0 0 4px rgba(220, 20, 60, 0.35));
+      transition: filter .3s ease, transform .3s ease;
+    }
+
+    /* Banda: contorno rojo + relleno oscuro encima */
+    .sentinel-logo__outline {
+      fill: none; stroke: var(--crimson); stroke-width: 11;
+      stroke-linejoin: round; stroke-linecap: butt;
+    }
+    .sentinel-logo__inner {
+      fill: none; stroke: var(--logo-fill); stroke-width: 8.4;
+      stroke-linejoin: round; stroke-linecap: butt;
+    }
+
+    .sentinel-logo__name {
+      font-family: "Segoe UI", "Inter", system-ui, sans-serif;
+      font-size: calc(var(--logo-size) * 0.5);
+      font-weight: 600;
+      letter-spacing: .06em;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .sentinel-logo:hover .sentinel-logo__icon {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 10px rgba(220, 20, 60, 0.7));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sentinel-logo__icon { transition: none; }
+    }
+
+    /* ===== Solo para la demo ===== */
+    body.demo {
+      margin: 0; min-height: 100vh;
+      display: grid; place-items: center;
+      background: var(--bg-demo);
+    }
+    .demo .sentinel-logo { --logo-size: 140px; }
+  </style>
+</head>
+<body class="demo">
+
+  <!-- ===== LOGO (copia este bloque en tu cabecera) ===== -->
+  <a class="sentinel-logo" href="#" aria-label="Sentinel">
+    <svg class="sentinel-logo__icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <path id="sentinel-red" d="M161.8 28.5 L60.1 28.5 L30.6 119.2 L102.6 171.5 L169.4 123.0 L145.8 50.5 L76.1 50.5 L56.5 110.8 L102.6 144.3 L143.5 114.5 L136.0 91.4"/>
+        <path id="sentinel-dark" d="M160.5 28.5 L60.1 28.5 L30.6 119.2 L102.6 171.5 L169.4 123.0 L145.8 50.5 L76.1 50.5 L56.5 110.8 L102.6 144.3 L143.5 114.5 L136.4 92.7"/>
+      </defs>
+      <use href="#sentinel-red" class="sentinel-logo__outline"/>
+      <use href="#sentinel-dark" class="sentinel-logo__inner"/>
+    </svg>
+    <span class="sentinel-logo__name">Sentinel</span>
+  </a>
+  <!-- ===== FIN LOGO ===== -->
+
+</body>
+</html>

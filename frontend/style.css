@@ -2,8 +2,10 @@
  * style.css
  * --------
  * Tema de Sentinel.
- * - Fondo gris cálido estilo Claude/n8n (sin negro puro).
- * - Acento carmesí #DC143C con glow rojo (identidad del logo).
+ * - Base: grises cálidos muy oscuros (sin negro puro) con retícula tenue.
+ * - Acento de UI: beige arena (bordes, iconos, botones, glow).
+ * - Alertas: carmesí #DC143C SOLO en phishing, errores y alertas.
+ * - Logo: cinta "S" de dos tonos (ver frontend/logo.html como demo).
  * - Todo parametrizado con variables en :root.
  */
 
@@ -15,20 +17,28 @@
 
 :root {
   /* Fondos y bordes (grises cálidos muy oscuros, estilo delta.dev) */
-  --bg: #141312;
-  --bg-panel: #1d1c19;
-  --bg-card: #242320;
-  --bg-input: #100f0e;
-  --border: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.12);
+  --bg: #0f0e0c;
+  --bg-panel: #161512;
+  --bg-card: #1c1a16;
+  --bg-input: #0b0a09;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.11);
 
-  /* Acento carmesí (identidad Sentinel) — bordes más notables */
+  /* Acento beige arena (UI general: bordes, iconos, botones, glow) */
+  --beige: #d9cda9;
+  --beige-strong: #ece3c8;
+  --beige-dark: #a89a72;
+  --beige-dim: rgba(217, 205, 169, 0.45);
+  --beige-soft: rgba(217, 205, 169, 0.3);
+  --beige-faint: rgba(217, 205, 169, 0.18);
+  --beige-glow: rgba(217, 205, 169, 0.25);
+
+  /* Alertas: carmesí SOLO para phishing, errores y alertas */
   --crimson: #dc143c;
   --crimson-dark: #8a0303;
   --crimson-glow: rgba(220, 20, 60, 0.35);
   --crimson-soft: rgba(220, 20, 60, 0.55);
   --crimson-live: rgba(220, 20, 60, 0.9);
-  --crimson-faint: rgba(220, 20, 60, 0.4);
 
   /* Texto */
   --text: #ece9e2;
@@ -59,18 +69,18 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* Fondo oscuro cálido con retícula tenue (40px) y halo crimson difuminado */
+  /* Fondo oscuro cálido con retícula tenue (40px) y halo beige difuminado */
   background:
-    radial-gradient(900px 620px at 88% -12%, rgba(220, 20, 60, 0.09), transparent 62%),
-    repeating-linear-gradient(0deg, transparent 0 39px, rgba(255, 255, 255, 0.022) 39px 40px),
-    repeating-linear-gradient(90deg, transparent 0 39px, rgba(255, 255, 255, 0.022) 39px 40px),
+    radial-gradient(900px 620px at 88% -12%, rgba(217, 205, 169, 0.07), transparent 62%),
+    repeating-linear-gradient(0deg, transparent 0 39px, rgba(255, 255, 255, 0.02) 39px 40px),
+    repeating-linear-gradient(90deg, transparent 0 39px, rgba(255, 255, 255, 0.02) 39px 40px),
     var(--bg);
   color: var(--text);
   font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
 }
 
-/* ---------- Scrollbar personalizada (fina, carmesí) ---------- */
+/* ---------- Scrollbar personalizada (fina, beige) ---------- */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -82,12 +92,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--crimson), var(--crimson-dark));
+  background: linear-gradient(180deg, var(--beige-dark), #7e7354);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--crimson);
+  background: var(--beige);
 }
 
 /* ---------- Iconos base ---------- */
@@ -128,7 +138,8 @@ body {
   gap: 12px;
 }
 
-/* Logo pentágono en espiral: línea fina con brillo neón */
+/* ---------- Logo Sentinel (cinta "S" de dos tonos) ---------- */
+
 .logo-trigger {
   display: flex;
   align-items: center;
@@ -138,16 +149,20 @@ body {
 }
 
 .logo-svg {
-  width: 42px;
-  height: 42px;
-  color: var(--crimson);
-  filter: drop-shadow(0 0 8px var(--crimson-glow));
+  width: 40px;
+  height: 40px;
+  overflow: visible;
   /* (E) Respiro del glow */
   animation: logo-respiro 5s ease-in-out infinite;
 }
 
-/* (A) Trazado del espiral: se dibuja al cargar y se repite al hacer hover */
+/* Trazo exterior: banda beige; se dibuja al cargar y en hover */
 .logo-trazo {
+  fill: none;
+  stroke: var(--beige);
+  stroke-width: 11;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
   stroke-dasharray: 100;
   stroke-dashoffset: 0;
   animation: trazar 1.6s cubic-bezier(0.45, 0, 0.2, 1) 0.3s backwards;
@@ -157,11 +172,14 @@ body {
   animation: trazar 1.1s cubic-bezier(0.45, 0, 0.2, 1);
 }
 
-/* Punto interior: aparece al terminar el trazado inicial */
-.logo-punto {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: aparecer 0.4s var(--ease-out) 1.6s backwards;
+/* Trazo interior: del color del panel — crea el efecto de cinta */
+.logo-relleno {
+  fill: none;
+  stroke: var(--bg-panel);
+  stroke-width: 8.4;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
+  animation: aparecer 0.3s var(--ease-out) 1.5s backwards;
 }
 
 /* (A) Lift 3D estilo delta.dev al hacer hover (sombra dura de acento) */
@@ -178,28 +196,29 @@ body {
 
 @keyframes delta-lift {
   0% {
-    filter: drop-shadow(0 0 8px var(--crimson-glow));
+    filter: drop-shadow(0 0 6px var(--beige-glow));
     transform: perspective(400px) rotateX(0) rotateY(0) translateY(0);
   }
   46% {
-    filter: drop-shadow(-4px 6px 0 rgba(220, 20, 60, 0.55));
+    filter: drop-shadow(-4px 6px 0 rgba(217, 205, 169, 0.5));
     transform: perspective(400px) rotateX(3deg) rotateY(-4deg) translateY(-3px);
   }
   100% {
-    filter: drop-shadow(0 0 8px var(--crimson-glow));
+    filter: drop-shadow(0 0 6px var(--beige-glow));
     transform: perspective(400px) rotateX(0) rotateY(0) translateY(0);
   }
 }
 
 @keyframes logo-respiro {
-  0%, 100% { filter: drop-shadow(0 0 6px rgba(220, 20, 60, 0.25)); }
-  50% { filter: drop-shadow(0 0 14px rgba(220, 20, 60, 0.5)); }
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(217, 205, 169, 0.18)); }
+  50% { filter: drop-shadow(0 0 13px rgba(217, 205, 169, 0.4)); }
 }
 
 .brand {
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: 17px;
+  color: var(--text);
 }
 
 .version {
@@ -226,7 +245,7 @@ body {
 }
 
 .topbar-link:hover {
-  color: var(--crimson);
+  color: var(--beige);
 }
 
 .divider {
@@ -273,12 +292,12 @@ body {
 
 .sidebar {
   background: var(--bg-panel);
-  border: 1px solid var(--crimson-soft);
+  border: 1px solid var(--beige-faint);
   border-radius: var(--radius-panel);
   padding: 20px;
   overflow-y: auto;
   min-height: 0;
-  box-shadow: 0 0 22px rgba(220, 20, 60, 0.1);
+  box-shadow: 0 0 22px rgba(217, 205, 169, 0.07);
 }
 
 .sidebar-title {
@@ -292,21 +311,20 @@ body {
 }
 
 .sidebar-title .icon {
-  color: var(--crimson);
+  color: var(--beige);
 }
 
 .stat-card {
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--bg-panel);
-  border: 1px solid var(--crimson-faint);
+  background: var(--bg-card);
+  border: 1px solid var(--beige-faint);
   border-radius: var(--radius);
   padding: 14px;
   margin-bottom: 12px;
 }
 
-/* Hover estilo Claude: elevación + icono animado + borde iluminado */
 /* Hover estilo Claude: elevación + icono animado + borde iluminado */
 .stat-card {
   transition:
@@ -317,8 +335,8 @@ body {
 
 .stat-card:hover {
   transform: translateY(-2px);
-  border-color: var(--crimson-live);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 0 16px var(--crimson-glow);
+  border-color: var(--beige-dim);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 0 16px var(--beige-glow);
 }
 
 .stat-icon {
@@ -326,8 +344,8 @@ body {
   height: 36px;
   min-width: 36px;
   border-radius: 10px;
-  background: rgba(220, 20, 60, 0.1);
-  color: var(--crimson);
+  background: rgba(217, 205, 169, 0.1);
+  color: var(--beige);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -340,7 +358,8 @@ body {
 
 .stat-icon svg { width: 18px; height: 18px; }
 
-.stat-icon-danger { background: rgba(255, 45, 85, 0.1); color: var(--verdict-phishing); }
+/* Crimson: SOLO el contador de phishing (alerta) */
+.stat-icon-danger { background: rgba(220, 20, 60, 0.12); color: var(--crimson); }
 .stat-icon-success { background: rgba(34, 224, 122, 0.1); color: var(--verdict-legitimo); }
 
 .stat-number {
@@ -355,8 +374,8 @@ body {
 
 .rules-card {
   margin-top: 24px;
-  background: var(--bg-panel);
-  border: 1px solid var(--crimson-faint);
+  background: var(--bg-card);
+  border: 1px solid var(--beige-faint);
   border-radius: var(--radius);
   padding: 16px;
 }
@@ -384,8 +403,8 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--crimson);
-  box-shadow: 0 0 6px var(--crimson-glow);
+  background: var(--beige);
+  box-shadow: 0 0 6px var(--beige-glow);
   margin-right: 10px;
 }
 
@@ -403,7 +422,7 @@ body {
 /* ---------- Zona de arrastre ---------- */
 
 .dropzone {
-  border: 2px dashed var(--crimson-soft);
+  border: 2px dashed var(--beige-soft);
   border-radius: var(--radius);
   padding: 60px 24px;
   text-align: center;
@@ -411,25 +430,40 @@ body {
 }
 
 .dropzone.dragover {
-  border-color: var(--crimson-live);
-  background: rgba(220, 20, 60, 0.05);
-  box-shadow: inset 0 0 30px var(--crimson-glow);
+  border-color: var(--beige);
+  background: rgba(217, 205, 169, 0.05);
+  box-shadow: inset 0 0 30px var(--beige-glow);
 }
 
-.dropzone-icon {
-  width: 64px;
-  height: 64px;
+/* Logo Sentinel dentro de la zona de arrastre */
+.dropzone-logo {
+  width: 110px;
+  height: 110px;
   margin: 0 auto 20px;
-  border-radius: 14px;
-  background: rgba(220, 20, 60, 0.1);
-  color: var(--crimson);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 24px var(--crimson-glow);
 }
 
-.dropzone-icon svg { width: 30px; height: 30px; }
+.dropzone-logo svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px var(--beige-glow));
+}
+
+.dropzone-logo .dz-exterior {
+  fill: none;
+  stroke: var(--beige);
+  stroke-width: 11;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
+}
+
+.dropzone-logo .dz-interior {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 8.4;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
+}
 
 .dropzone-title {
   font-size: 22px;
@@ -474,8 +508,8 @@ body {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--crimson);
-  box-shadow: 0 0 10px var(--crimson-glow);
+  background: var(--beige);
+  box-shadow: 0 0 10px var(--beige-glow);
   animation: onda-punto 1.2s ease-in-out infinite;
 }
 
@@ -513,9 +547,9 @@ body {
 .btn-primary {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
-  color: #fff;
-  box-shadow: 0 0 16px var(--crimson-glow);
+  background: linear-gradient(135deg, var(--beige), var(--beige-dark));
+  color: #211d14;
+  box-shadow: 0 0 16px var(--beige-glow);
   transition:
     transform 0.35s var(--ease-spring),
     box-shadow 0.35s var(--ease-out),
@@ -531,15 +565,15 @@ body {
   left: -60%;
   width: 50%;
   z-index: 3;
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
   transform: skewX(-18deg) translateX(0);
   transition: transform 0.7s var(--ease-out);
   pointer-events: none;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #ef2448, #a10404);
-  box-shadow: 0 0 26px rgba(220, 20, 60, 0.55);
+  background: linear-gradient(135deg, var(--beige-strong), var(--beige));
+  box-shadow: 0 0 26px rgba(217, 205, 169, 0.45);
   transform: scale(1.03);
 }
 
@@ -553,13 +587,14 @@ body {
 
 .btn-secondary {
   background: transparent;
-  border-color: var(--crimson-soft);
+  border-color: var(--beige-soft);
   color: var(--text);
+  transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
 }
 
 .btn-secondary:hover {
-  border-color: var(--crimson-live);
-  color: var(--crimson);
+  border-color: var(--beige);
+  color: var(--beige);
 }
 
 .dropzone-formats {
@@ -573,7 +608,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -584,7 +619,7 @@ body {
 
 .modal {
   background: var(--bg-card);
-  border: 1px solid var(--crimson-soft);
+  border: 1px solid var(--beige-dim);
   border-radius: var(--radius);
   padding: 20px;
   width: 520px;
@@ -611,8 +646,8 @@ body {
 
 .modal textarea:focus {
   outline: none;
-  border-color: var(--crimson-soft);
-  box-shadow: 0 0 12px var(--crimson-glow);
+  border-color: var(--beige-dim);
+  box-shadow: 0 0 12px var(--beige-glow);
 }
 
 .modal-actions {
@@ -629,7 +664,7 @@ body {
   align-items: center;
   gap: 10px;
   background: var(--bg-card);
-  border: 1px solid var(--crimson-faint);
+  border: 1px solid var(--beige-faint);
   border-radius: var(--radius);
   padding: 14px 18px;
   color: var(--text-dim);
@@ -652,11 +687,11 @@ body {
   transition: opacity 0.2s ease;
 }
 
-.info-icon-info { opacity: 1; color: var(--crimson); }
-.info-icon-reloj { color: var(--crimson); }
+.info-icon-info { opacity: 1; color: var(--beige); }
+.info-icon-reloj { color: var(--beige); }
 .info-icon-check { color: var(--verdict-legitimo); }
 
-/* Estado "cargando": reloj girando + luz neón recorriendo el borde */
+/* Estado "cargando": reloj girando + luz beige recorriendo el borde */
 .info-bar.cargando {
   border-width: 1.5px;
   border-color: transparent;
@@ -665,8 +700,8 @@ body {
     conic-gradient(
       from var(--angle),
       transparent 0deg 250deg,
-      var(--crimson-glow) 305deg,
-      var(--crimson) 345deg,
+      var(--beige-glow) 305deg,
+      var(--beige) 345deg,
       transparent 360deg
     ) border-box;
   animation: giro-borde 2.4s linear infinite;
@@ -692,6 +727,14 @@ body {
 .info-bar.completado .info-icon-info { opacity: 0; }
 .info-bar.completado .info-icon-check { opacity: 1; }
 
+/* Estado "error": alerta carmesí */
+.info-bar.error {
+  border-color: var(--crimson-soft);
+  box-shadow: 0 0 14px var(--crimson-glow);
+}
+
+.info-bar.error .info-icon-info { color: var(--crimson); }
+
 /* ---------- Resultados ---------- */
 
 .results-layout {
@@ -708,15 +751,15 @@ body {
 
 .result-card {
   background: var(--bg-card);
-  border: 1px solid var(--crimson-faint);
+  border: 1px solid var(--beige-faint);
   border-radius: var(--radius);
   padding: 16px;
   transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 
 .result-card:hover {
-  border-color: var(--crimson-soft);
-  box-shadow: 0 0 14px rgba(220, 20, 60, 0.15);
+  border-color: var(--beige-soft);
+  box-shadow: 0 0 14px rgba(217, 205, 169, 0.12);
 }
 
 .result-label {
@@ -730,7 +773,7 @@ body {
 }
 
 .result-label .icon-sm {
-  color: var(--crimson);
+  color: var(--beige);
 }
 
 .result-value {
@@ -748,7 +791,7 @@ body {
 
 .verdict-card {
   background: var(--bg-card);
-  border: 1.5px solid var(--crimson-faint);
+  border: 1.5px solid var(--beige-faint);
   border-radius: var(--radius);
   padding: 24px 20px;
   text-align: center;
@@ -769,7 +812,7 @@ body {
   width: 78px;
   height: 78px;
   border-radius: 50%;
-  background: rgba(168, 162, 154, 0.08);
+  background: rgba(217, 205, 169, 0.07);
   color: var(--text-dim);
   display: flex;
   align-items: center;
@@ -797,7 +840,7 @@ body {
   margin: 0 0 16px;
 }
 
-/* Nivel: phishing (rojo vivo) */
+/* Crimson: SOLO cuando el correo es phishing (alerta) */
 .verdict-card.nivel-phishing {
   border-color: var(--verdict-phishing);
   box-shadow: 0 0 24px rgba(255, 45, 85, 0.35);
@@ -853,8 +896,8 @@ body {
   height: 100%;
   width: 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--crimson-dark), var(--crimson));
-  box-shadow: 0 0 10px var(--crimson-glow);
+  background: linear-gradient(90deg, var(--beige-dark), var(--beige));
+  box-shadow: 0 0 10px var(--beige-glow);
   transition: width 0.8s var(--ease-out);
 }
 
@@ -896,7 +939,7 @@ body {
   inset: 0;
   z-index: 1;
   border-radius: inherit;
-  background: radial-gradient(220px circle at var(--x, 50%) var(--y, 50%), rgba(220, 20, 60, 0.14), transparent 65%);
+  background: radial-gradient(220px circle at var(--x, 50%) var(--y, 50%), rgba(217, 205, 169, 0.1), transparent 65%);
   opacity: 0;
   transition: opacity 0.3s var(--ease-out);
   pointer-events: none;
