@@ -1,0 +1,12 @@
+# Dependencias
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+
+# Imágenes de referencia del logo (no forman parte de la app)
+frontend/assents/
