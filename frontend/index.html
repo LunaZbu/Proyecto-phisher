@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phishing-Analyzer</title>
+  <title>Sentinel — Analizador de phishing</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,34 +11,31 @@
   <!-- Barra superior -->
   <header class="topbar">
     <div class="topbar-left">
-      <div class="window-dots">
-        <span class="dot dot-red"></span>
-        <span class="dot dot-yellow"></span>
-        <span class="dot dot-green"></span>
+      <div class="logo-trigger">
+        <!-- Logo: pentágono en espiral (línea fina tipo neón, según el boceto) -->
+        <svg class="logo-svg" viewBox="0 0 32 32" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Sentinel">
+          <path class="logo-trazo" pathLength="100" d="M16 4
+                 L28.4 13 L23.6 27.5 L8.4 27.5 L3.6 13
+                 L16 6.74 L25.67 13.88 L21.93 25.19 L10.07 25.19 L6.33 13.88
+                 L16 9.72 L22.94 14.76 L20.26 22.88 L11.74 22.88 L9.06 14.76
+                 L16 12.58 L20.22 15.64 L18.58 20.57 L13.42 20.57 L11.78 15.64
+                 L16.8 17.6" />
+          <circle class="logo-punto" cx="16.8" cy="17.6" r="1.15" fill="currentColor" stroke="none" />
+        </svg>
+        <span class="brand">Sentinel</span>
       </div>
-      <svg class="icon icon-shield-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z" />
-      </svg>
-      <span class="brand">PHISHING-ANALYZER</span>
       <span class="version">v1.4.2</span>
     </div>
     <div class="topbar-right">
       <button class="topbar-link">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        Config
-      </button>
-      <button class="topbar-link">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        Console
-      </button>
-      <button class="topbar-link">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.83 1c0 2-3 2-3 4"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Docs
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.83 1c0 2-3 2-3 4"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Documentación
       </button>
       <span class="divider"></span>
       <span class="engine-status">
         <span class="status-dot"></span>
-        Engine Online
+        Motor en línea
       </span>
     </div>
   </header>
@@ -48,13 +45,13 @@
     <!-- Panel lateral izquierdo -->
     <aside class="sidebar">
       <h2 class="sidebar-title">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
         PANEL DE CONTROL
       </h2>
 
-      <div class="stat-card">
+      <div class="stat-card spotlight">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         </div>
         <div>
           <div class="stat-number" id="contador-analizados">0</div>
@@ -62,9 +59,9 @@
         </div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card spotlight">
         <div class="stat-icon stat-icon-danger">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
         </div>
         <div>
           <div class="stat-number" id="contador-phishing">0</div>
@@ -72,9 +69,9 @@
         </div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card spotlight">
         <div class="stat-icon stat-icon-success">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
         </div>
         <div>
           <div class="stat-number" id="contador-legitimos">0</div>
@@ -85,11 +82,11 @@
       <div class="rules-card">
         <h3 class="rules-title">REGLAS ACTIVAS</h3>
         <ul class="rules-list">
-          <li><span class="rule-dot"></span>SPF/DKIM check</li>
-          <li><span class="rule-dot"></span>URL reputation</li>
-          <li><span class="rule-dot"></span>Header anomaly</li>
-          <li><span class="rule-dot"></span>ML classifier</li>
-          <li><span class="rule-dot"></span>Domain age</li>
+          <li><span class="rule-dot"></span>Verificación SPF/DKIM</li>
+          <li><span class="rule-dot"></span>Reputación de URL</li>
+          <li><span class="rule-dot"></span>Anomalía de cabeceras</li>
+          <li><span class="rule-dot"></span>Clasificador ML</li>
+          <li><span class="rule-dot"></span>Antigüedad del dominio</li>
         </ul>
       </div>
     </aside>
@@ -99,27 +96,40 @@
 
       <!-- Zona de carga -->
       <section class="dropzone" id="dropzone">
-        <div class="dropzone-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        </div>
-        <h1 class="dropzone-title">Arrastra tu archivo .eml aquí</h1>
-        <p class="dropzone-subtitle">o haz clic para seleccionar desde el explorador de archivos</p>
 
-        <div class="dropzone-actions">
-          <button class="btn btn-primary" id="btn-seleccionar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-            Seleccionar archivo
-          </button>
-          <button class="btn btn-secondary" id="btn-pegar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
-            Pegar contenido
-          </button>
+        <div class="dropzone-normal">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <h1 class="dropzone-title">Arrastra tu archivo .eml aquí</h1>
+          <p class="dropzone-subtitle">o haz clic para seleccionar desde el explorador de archivos</p>
+
+          <div class="dropzone-actions">
+            <button class="btn btn-primary spotlight" id="btn-seleccionar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              Seleccionar archivo
+            </button>
+            <button class="btn btn-secondary" id="btn-pegar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+              Pegar contenido
+            </button>
+          </div>
+
+          <p class="dropzone-formats">
+            <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Formatos soportados: .eml, .msg, .txt — Tamaño máximo: 25 MB
+          </p>
         </div>
 
-        <p class="dropzone-formats">
-          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          Formatos soportados: .eml, .msg, .txt — Tamaño máximo: 25 MB
-        </p>
+        <!-- Estado de carga (oculto por defecto; se muestra con la clase "analizando") -->
+        <div class="dropzone-analizando">
+          <div class="puntos-carga">
+            <span class="punto"></span>
+            <span class="punto"></span>
+            <span class="punto"></span>
+          </div>
+          <p class="analizando-texto">Analizando...</p>
+        </div>
 
         <input type="file" id="input-archivo" accept=".eml,.msg,.txt" hidden />
       </section>
@@ -138,7 +148,14 @@
 
       <!-- Aviso de estado / metadatos -->
       <div class="info-bar" id="info-bar">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span class="info-bar-icons">
+          <!-- Icono: información -->
+          <svg class="info-icon info-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <!-- Icono: reloj (aguja animada durante el análisis) -->
+          <svg class="info-icon info-icon-reloj" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><g class="aguja-reloj"><polyline points="12 7 12 12 15.5 13.5"/></g></svg>
+          <!-- Icono: check (análisis completado) -->
+          <svg class="info-icon info-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+        </span>
         <span id="info-bar-texto">Los metadatos del correo aparecerán aquí una vez que cargues un archivo .eml para analizar.</span>
       </div>
 
@@ -146,42 +163,40 @@
       <div class="results-layout">
 
         <div class="results-grid">
-          <div class="result-card">
-            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>REMITENTE</h4>
+          <div class="result-card spotlight">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>REMITENTE</h4>
             <div class="result-value" id="valor-remitente">— sin datos —</div>
             <div class="result-hint" id="hint-remitente">Carga un archivo para comenzar</div>
           </div>
 
-          <div class="result-card">
-            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l4.6-4.6a2 2 0 0 0 0-2.82Z"/><circle cx="7.5" cy="7.5" r="1"/></svg>ASUNTO</h4>
+          <div class="result-card spotlight">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l4.6-4.6a2 2 0 0 0 0-2.82Z"/><circle cx="7.5" cy="7.5" r="1"/></svg>ASUNTO</h4>
             <div class="result-value" id="valor-asunto">— sin datos —</div>
-            <div class="result-hint">Subject line aparecerá aquí</div>
+            <div class="result-hint">El asunto aparecerá aquí</div>
           </div>
 
-          <div class="result-card">
-            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>IP DE ORIGEN</h4>
+          <div class="result-card spotlight">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>IP DE ORIGEN</h4>
             <div class="result-value" id="valor-ip">—.—.—.—</div>
             <div class="result-hint">Geolocalización y reputación</div>
           </div>
 
-          <div class="result-card">
-            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>ESCANEO DE URLS</h4>
+          <div class="result-card spotlight">
+            <h4 class="result-label"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>ESCANEO DE URLS</h4>
             <div class="result-value" id="valor-urls">Sin URLs detectadas</div>
-            <div class="result-hint">Análisis de dominios y redirects</div>
+            <div class="result-hint">Análisis de dominios y redirecciones</div>
           </div>
         </div>
 
-        <div class="verdict-card">
+        <div class="verdict-card" id="verdict-card">
           <h3 class="verdict-title">VEREDICTO DE RIESGO</h3>
           <div class="verdict-icon" id="verdict-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L20 5 V11 C20 16 17 20 12 22 C7 20 4 16 4 11 V5 Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
           </div>
           <div class="verdict-text" id="verdict-text">Esperando<br>análisis</div>
           <p class="verdict-hint" id="verdict-hint">Carga un archivo .eml para comenzar</p>
-          <div class="verdict-dots">
-            <span class="v-dot v-dot-green"></span>
-            <span class="v-dot v-dot-orange"></span>
-            <span class="v-dot v-dot-pink"></span>
+          <div class="verdict-meter" id="verdict-meter" hidden>
+            <div class="verdict-meter-fill" id="verdict-meter-fill"></div>
           </div>
         </div>
 

@@ -24,7 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
   inicializarDropzone();
   inicializarBotones();
   inicializarModalPegar();
+  inicializarSpotlight();
 });
+
+// ---------- Spotlight que sigue al cursor (estilo Caelestia) ----------
+
+function inicializarSpotlight() {
+  document.querySelectorAll(".spotlight").forEach((elemento) => {
+    elemento.addEventListener("mousemove", (evento) => {
+      const rect = elemento.getBoundingClientRect();
+      elemento.style.setProperty("--x", `${evento.clientX - rect.left}px`);
+      elemento.style.setProperty("--y", `${evento.clientY - rect.top}px`);
+    });
+  });
+}
 
 // ---------- Dropzone (drag & drop) ----------
 
@@ -50,8 +63,10 @@ function inicializarDropzone() {
     }
   });
 
-  // Clic en la zona (fuera de los botones) también abre el explorador
+  // Clic en la zona (fuera de los botones) también abre el explorador,
+  // salvo mientras dura el análisis.
   dropzone.addEventListener("click", (evento) => {
+    if (dropzone.classList.contains("analizando")) return;
     if (evento.target.closest(".btn")) return; // los botones tienen su propio handler
     document.getElementById("input-archivo").click();
   });
@@ -119,7 +134,7 @@ async function seleccionarArchivoDesdeBackend() {
   const ruta = await window.pywebview.api.seleccionar_archivo();
   if (!ruta) return; // el usuario canceló el diálogo
 
-  mostrarInfo(`Analizando: ${ruta}`);
+  mostrarCargando(`Analizando: ${ruta}`);
   const resultado = await window.pywebview.api.analizar_correo(ruta);
   procesarResultado(resultado);
 }
@@ -132,7 +147,7 @@ async function analizarContenidoPegado(contenido) {
     return;
   }
 
-  mostrarInfo("Analizando contenido...");
+  mostrarCargando("Analizando contenido...");
   const resultado = await window.pywebview.api.analizar_correo(contenido);
   procesarResultado(resultado);
 }
@@ -141,14 +156,33 @@ function tieneBackend() {
   return typeof window.pywebview !== "undefined";
 }
 
+// ---------- Estados visuales de carga (info-bar + dropzone) ----------
+
+function mostrarCargando(mensaje = "Analizando...") {
+  const barra = document.getElementById("info-bar");
+  barra.classList.remove("completado");
+  barra.classList.add("cargando"); // reloj girando + luz neón en el borde
+  document.getElementById("dropzone").classList.add("analizando"); // puntos en ola
+  mostrarInfo(mensaje);
+}
+
+function ocultarCargando(exitoso = true) {
+  const barra = document.getElementById("info-bar");
+  barra.classList.remove("cargando");
+  barra.classList.toggle("completado", exitoso); // check verde si terminó bien
+  document.getElementById("dropzone").classList.remove("analizando");
+}
+
 // ---------- Procesar y pintar el resultado ----------
 
 function procesarResultado(resultado) {
   if (!resultado || resultado.error) {
+    ocultarCargando(false);
     mostrarInfo(`[!] Error durante el análisis: ${resultado ? resultado.error : "desconocido"}`);
     return;
   }
 
+  ocultarCargando(true);
   pintarMetadatos(resultado);
   pintarVeredicto(resultado.veredicto);
   actualizarContadores(resultado.veredicto.nivel);
@@ -165,13 +199,22 @@ function pintarMetadatos(resultado) {
     cantidadUrls > 0 ? `${cantidadUrls} URL(s) detectada(s)` : "Sin URLs detectadas";
 }
 
+// ---------- Veredicto de riesgo (tarjeta, color y medidor) ----------
+
 function pintarVeredicto(veredicto) {
+  const tarjeta = document.getElementById("verdict-card");
   const icono = document.getElementById("verdict-icon");
   const texto = document.getElementById("verdict-text");
   const hint = document.getElementById("verdict-hint");
 
-  icono.classList.remove("legitimo", "sospechoso", "phishing");
+  const niveles = ["legitimo", "sospechoso", "phishing"];
+  tarjeta.classList.remove(...niveles.map((nivel) => `nivel-${nivel}`));
+  icono.classList.remove(...niveles);
+
+  tarjeta.classList.add(`nivel-${veredicto.nivel}`);
   icono.classList.add(veredicto.nivel);
+  reiniciarAnimacion(icono);
+  reiniciarAnimacion(texto);
 
   const etiquetas = {
     legitimo: "Correo<br>legítimo",
@@ -179,19 +222,38 @@ function pintarVeredicto(veredicto) {
     phishing: "Phishing<br>detectado",
   };
   texto.innerHTML = etiquetas[veredicto.nivel] || "Sin<br>clasificar";
-  hint.textContent = `Puntaje de riesgo: ${veredicto.puntaje}/100`;
 
-  actualizarDotsVeredicto(veredicto.nivel);
+  if (typeof veredicto.puntaje === "number") {
+    pintarMedidorRiesgo(veredicto.puntaje);
+    hint.textContent = `Puntaje de riesgo: ${veredicto.puntaje}/100`;
+  } else {
+    ocultarMedidorRiesgo();
+    hint.textContent = "";
+  }
 }
 
-function actualizarDotsVeredicto(nivel) {
-  const mapa = { legitimo: "v-dot-green", sospechoso: "v-dot-orange", phishing: "v-dot-pink" };
-  document.querySelectorAll(".v-dot").forEach((dot) => dot.classList.remove("active"));
+function pintarMedidorRiesgo(puntaje) {
+  const medidor = document.getElementById("verdict-meter");
+  const relleno = document.getElementById("verdict-meter-fill");
 
-  const claseActiva = mapa[nivel];
-  if (claseActiva) {
-    document.querySelector(`.${claseActiva}`).classList.add("active");
-  }
+  const valor = Math.max(0, Math.min(100, puntaje));
+  medidor.hidden = false;
+  relleno.style.width = "0%";
+  // Siguiente frame: así la transición del CSS anima el llenado desde 0
+  requestAnimationFrame(() => {
+    relleno.style.width = `${valor}%`;
+  });
+}
+
+function ocultarMedidorRiesgo() {
+  document.getElementById("verdict-meter").hidden = true;
+  document.getElementById("verdict-meter-fill").style.width = "0%";
+}
+
+function reiniciarAnimacion(elemento) {
+  elemento.classList.remove("aparecer");
+  void elemento.offsetWidth; // fuerza reflow para reiniciar la animación
+  elemento.classList.add("aparecer");
 }
 
 // ---------- Contadores del panel lateral ----------
