@@ -1,6 +1,4 @@
 """
-auth_checks.py
----------------
 Fase 2: verificación de autenticación del correo (SPF, DKIM, DMARC),
 detección de anomalías en headers y extracción de la IP de origen.
 
@@ -20,7 +18,7 @@ _PATRON_IP = re.compile(r"\b(\d{1,3}(?:\.\d{1,3}){3})\b")
 
 @dataclass
 class ResultadoAutenticacion:
-    """Resultado de las verificaciones de autenticación de un correo."""
+
 
     spf_estado: str          # "pass" | "fail" | "none" | "no_encontrado"
     dkim_estado: str         # "pass" | "fail" | "no_encontrado"
@@ -73,14 +71,7 @@ def verificar_autenticacion(correo: CorreoParseado) -> ResultadoAutenticacion:
 
 
 def extraer_ip_origen(recibidos: list[str]) -> str:
-    """
-    Heurística: busca todas las IPv4 en la cadena de headers 'Received'
-    y devuelve la más cercana al origen real (se descartan IPs privadas
-    cuando hay alguna pública disponible).
 
-    No es 100% infalible (algunos proveedores ocultan la IP real), pero
-    es suficiente para el alcance del proyecto.
-    """
     ips_encontradas: list[str] = []
     for linea in recibidos:
         ips_encontradas.extend(_PATRON_IP.findall(linea))
@@ -152,11 +143,7 @@ def _leer_dmarc(authentication_results: str) -> str:
 
 
 def _remitente_coincide_con_return_path(headers: dict[str, str]) -> bool:
-    """
-    Compara el dominio de 'From' contra el dominio de 'Return-Path'.
-    Devuelve True si HAY anomalía (no coinciden), False si todo bien
-    o si no hay suficiente información para comparar.
-    """
+
     from_addr = parseaddr(headers.get("From", ""))[1]
     return_path = parseaddr(headers.get("Return-Path", ""))[1]
 
