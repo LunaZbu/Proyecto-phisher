@@ -3,3 +3,6 @@ dnspython>=2.6
 python-whois>=0.9
 tldextract>=5.1
 requests>=2.32
+qtpy>=2.4.0; sys_platform == 'linux'
+PyQt6>=6.5.0; sys_platform == 'linux'
+PyQt6-WebEngine>=6.5.0; sys_platform == 'linux'
