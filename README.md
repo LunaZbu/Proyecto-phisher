@@ -26,7 +26,7 @@ Para poner en marcha el proyecto en un entorno de desarrollo:
 1. Asegúrate de tener Python instalado en tu equipo.
 2. Clona o descarga este repositorio:
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/LunaZbu/Proyecto-phisher.git
    cd Proyecto-phisher
    ```
 3. Se recomienda crear un entorno virtual para aislar las dependencias:
