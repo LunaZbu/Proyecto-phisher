@@ -24,16 +24,32 @@ El proyecto integra diversas herramientas que permiten un funcionamiento eficien
 Para poner en marcha el proyecto en un entorno de desarrollo:
 
 1. Asegúrate de tener Python instalado en tu equipo.
-2. Clona o descarga este repositorio.
+2. Clona o descarga este repositorio:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd Proyecto-phisher
+   ```
 3. Se recomienda crear un entorno virtual para aislar las dependencias:
    ```bash
    python -m venv venv
    ```
-4. Activa el entorno virtual e instala los requerimientos:
+4. Activa el entorno virtual:
+   - **En Windows:**
+     ```bash
+     venv\Scripts\activate
+     ```
+   - **En Linux / macOS:**
+     ```bash
+     source venv/bin/activate
+     ```
+5. Instala los requerimientos:
    ```bash
    pip install -r requirements.txt
    ```
-5. Inicia la aplicación ejecutando el archivo principal:
+   > **Nota sobre compatibilidad multiplataforma:**  
+   > En Windows, `pywebview` utiliza nativamente el motor Microsoft Edge WebView2. En entornos Linux, `requirements.txt` incluye de forma condicional (`sys_platform == 'linux'`) las librerías `qtpy`, `PyQt6` y `PyQt6-WebEngine`, requeridas como backend gráfico para renderizar la ventana en escritorios X11 y Wayland.
+
+6. Inicia la aplicación ejecutando el archivo principal:
    ```bash
    python main.py
    ```
